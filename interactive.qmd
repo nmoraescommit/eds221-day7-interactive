@@ -1,0 +1,64 @@
+---
+title: "interactive"
+author: "NM"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+library(lubridate)
+
+penguins <- palmerpenguins::penguins
+```
+
+
+#2. Data wranglipenguins#2. Data wrangling refresher
+```{r}
+
+#Refresher 1: Starting with the penguins dataset in the palmerpenguins package, write a single piped sequence in which you:
+
+#Only include penguins at Biscoe and Dream islands
+penguins_2 <- penguins %>%
+  filter(island == c("Dream","Biscoe"))
+
+#Remove the year and sex variables
+penguins_2 <- penguins_2 %>%
+  select(-c(sex,year))
+
+#Add a new column called body_mass_kg: with penguin mass converted from grams to kilograms
+penguins_2 <- penguins_2 %>%
+  mutate(body_mass_kg = (body_mass_g/1000))
+
+#Rename the island variable to location
+penguins_2 <- penguins_2 %>%
+  rename(location = island)
+```
+
+```{r}
+#Refresher 2: Staring with the penguins dataset in the palmerpenguins package, write a single piped sequence in which you:
+
+#Limit to only Adelie penguins
+penguins_3 <- penguins %>%
+  filter(species == "Adelie")
+
+#Remove any observations where flipper_length_mm is NA (hint: !is.na())
+
+peguins_3 <- penguins_3 %>%
+  filter(!is.na(flipper_length_mm))
+
+#Group the data by sex
+penguins_3 <- penguins_3 %>%
+  group_by(sex)
+
+
+#Find the mean (mean()), standard deviation (sd) and sample size (n) of flipper_length_mm for male and female Adelie penguins, returned in a nice summary table
+penguins_summary <- penguins_3 %>%
+  summarise(penguin_mean = mean(flipper_length_mm),
+         penguin_sd = sd(flipper_length_mm),
+         penguin_n = n())
+  
+```
+
